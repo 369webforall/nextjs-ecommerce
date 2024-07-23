@@ -10,10 +10,10 @@ const Header = () => {
         <div className="flex-start">
           <Link href="/">
             <Image
-              src="/icons/logo.svg"
+              src="/icons/logo-amazon.svg"
               alt="ecommerce logo"
-              width={50}
-              height={50}
+              width={100}
+              height={100}
             />
           </Link>
         </div>
