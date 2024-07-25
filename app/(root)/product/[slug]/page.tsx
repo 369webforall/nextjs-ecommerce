@@ -27,7 +27,6 @@ const ProductDetails = async ({
   params: { slug },
 }: {
   params: { slug: string };
-  searchParams: { page: string; color: string; size: string };
 }) => {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
