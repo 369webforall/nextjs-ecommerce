@@ -7,6 +7,7 @@ import { signUp } from "./signup-action";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Form,
   FormControl,
@@ -56,11 +57,10 @@ export function SingUpForm() {
     const res = await signUp(values);
     if (res.success) {
       toast.success("Account created successfully");
-      router.push("/");
+      router.push("/signin");
     } else {
       toast.error(res.error);
     }
-    console.log(values);
   }
 
   return (
@@ -131,8 +131,15 @@ export function SingUpForm() {
             </FormItem>
           )}
         />
+        <div className="flex flex-col gap-4">
+          <Button type="submit">Sign up</Button>
 
-        <Button type="submit">Submit</Button>
+          <Button variant="link">
+            <Link href="/signin">
+              If You have account then go to Login Page.
+            </Link>
+          </Button>
+        </div>
       </form>
     </Form>
   );

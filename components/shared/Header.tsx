@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 import { ShoppingCart, UserIcon } from "lucide-react";
+import UserButton from "./user-button";
 const Header = () => {
   return (
     <header className="w-full border-b">
@@ -17,20 +18,14 @@ const Header = () => {
             />
           </Link>
         </div>
-        <div className="space-x-2">
+        <div className="space-x-2 flex gap-2 items-center">
           <Button asChild variant="ghost">
             <Link href="/cart">
               <ShoppingCart />
               Cart
             </Link>
           </Button>
-
-          <Button asChild>
-            <Link href="/singin">
-              <UserIcon />
-              Sign In
-            </Link>
-          </Button>
+          <UserButton />
         </div>
       </div>
     </header>
