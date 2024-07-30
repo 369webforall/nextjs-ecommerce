@@ -110,7 +110,7 @@ model Authenticator {
 
 model Cart {
   id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId        String   @db.ObjectId
+  userId        String?  @db.ObjectId
   sessionCartId String
   items         Json     @default("[]")
   itemsPrice    Float
@@ -118,7 +118,7 @@ model Cart {
   taxPrice      Float
   totalPrice    Float
   createdAt     DateTime @default(now())
-  user          User     @relation(fields: [userId], references: [id])
+  user          User?    @relation(fields: [userId], references: [id])
 
   @@unique([userId])
   @@map("cart")

@@ -1,8 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../ui/button";
-import { ShoppingCart, UserIcon } from "lucide-react";
+import CartButton from "./cart-button";
 import UserButton from "./user-button";
 const Header = () => {
   return (
@@ -19,12 +18,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="space-x-2 flex gap-2 items-center">
-          <Button asChild variant="ghost">
-            <Link href="/cart">
-              <ShoppingCart />
-              Cart
-            </Link>
-          </Button>
+          <CartButton />
           <UserButton />
         </div>
       </div>
