@@ -6,6 +6,7 @@ import { CartItem } from "../types";
 import { round2 } from "../utils";
 import { cartItemSchema } from "../validation/validator";
 import { revalidatePath } from "next/cache";
+import { formatError } from "../utils";
 
 const calcPrice = (items: CartItem[]) => {
   const itemsPrice = round2(
@@ -114,7 +115,7 @@ export const addItemToCart = async (data: CartItem) => {
       };
     }
   } catch (error: any) {
-    return { success: false, message: "Something went wrong" };
+    return { success: false, message: formatError(error) };
   }
 };
 
@@ -162,6 +163,6 @@ export const removeItemFromCart = async (productId: string) => {
       } cart successfully`,
     };
   } catch (error: any) {
-    return { success: false, message: "Something went wrong" };
+    return { success: false, message: formatError(error) };
   }
 };

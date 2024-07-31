@@ -19,3 +19,38 @@ export const round2 = (value: number | string) => {
     throw new Error("value is not a number nor a string");
   }
 };
+
+export const formatError = (error: any): string => {
+  if (error.name === "ZodError") {
+    const fieldErrors = Object.keys(error.errors).map((field) => {
+      const errorMessage = error.errors[field].message;
+      return `${error.errors[field].path}: ${errorMessage}`; // field: errorMessage
+    });
+    return fieldErrors.join(". ");
+  } else if (error.name === "ValidationError") {
+    const fieldErrors = Object.keys(error.errors).map((field) => {
+      const errorMessage = error.errors[field].message;
+      return errorMessage;
+    });
+    return fieldErrors.join(". ");
+  } else {
+    return typeof error.message === "string"
+      ? error.message
+      : JSON.stringify(error.message);
+  }
+};
+const CURRENCY_FORMATTER = new Intl.NumberFormat("en-US", {
+  currency: "USD",
+  style: "currency",
+  minimumFractionDigits: 2,
+});
+
+export function formatCurrency(amount: number | string | null) {
+  if (typeof amount === "number") {
+    return CURRENCY_FORMATTER.format(amount);
+  } else if (typeof amount === "string") {
+    return CURRENCY_FORMATTER.format(Number(amount));
+  } else {
+    return "NaN";
+  }
+}
