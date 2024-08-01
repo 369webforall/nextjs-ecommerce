@@ -12,6 +12,7 @@ type CartArray = Omit<Cart, "items"> & {
 
 export default async function CartButton() {
   const cart = ((await getMyCart()) as CartArray) || null;
+  console.log(cart);
 
   return (
     <Button asChild variant="ghost">

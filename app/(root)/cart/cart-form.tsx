@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 
-export default function CartForm({ cart }: { cart?: Cart }) {
+export default function CartForm({ cart }: { cart: Cart }) {
   const router = useRouter();
 
   const { toast } = useToast();
@@ -126,7 +126,9 @@ export default function CartForm({ cart }: { cart?: Cart }) {
                   {formatCurrency(cart.itemsPrice)}
                 </div>
                 <Button
-                  onClick={() => startTransition(() => router.push("/signin"))}
+                  onClick={() =>
+                    startTransition(() => router.push("/shipping-address"))
+                  }
                   className="w-full"
                   disabled={isPending}
                 >
