@@ -7,11 +7,15 @@ import bcrypt from "bcryptjs";
 export default {
   providers: [
     Credentials({
+      credentials: {
+        email: {
+          type: "email",
+        },
+        password: { type: "password" },
+      },
       async authorize(credentials) {
         // Ensure credentials are defined
-        if (!credentials) {
-          throw new Error("No credentials provided");
-        }
+        if (credentials == null) return null;
 
         // Validate the credentials using zod schema
         const validatedFields = loginSchema.safeParse(credentials);

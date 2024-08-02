@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-
 import ProductImages from "@/components/shared/product/product-images";
 import ProductPrice from "@/components/shared/product/product-price";
 import { Badge } from "@/components/ui/badge";

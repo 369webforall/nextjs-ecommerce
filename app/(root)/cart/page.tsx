@@ -8,14 +8,18 @@ export const metadata = {
   title: `Shopping Cart - ${APP_NAME}`,
 };
 
+type CartType = Omit<Cart, "items"> & { items: CartItem[] };
+
 const CartPage = async () => {
   const cart = await getMyCart();
+  if (!cart) {
+    return <p>Page not found</p>;
+  }
 
-  const parsedCart: Cart = {
+  const parsedCart: CartType = {
     ...cart,
-    items: cart?.items as CartItem[],
+    items: cart.items,
   };
-
   return <CartForm cart={parsedCart} />;
 };
 

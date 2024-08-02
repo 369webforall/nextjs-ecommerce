@@ -3,13 +3,21 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import authConfig from "./auth.config";
 import prisma from "./prisma/client";
 import { cookies } from "next/headers";
-
 import { NextResponse } from "next/server";
-
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: "/signin",
+    error: "/signin",
+  },
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url;
+      if (url.startsWith("/")) return new URL(url, baseUrl).toString();
+      return baseUrl;
+    },
     async jwt({ token, user, session, trigger }: any) {
       if (user) {
+        console.log("session jwt");
         if (trigger === "signIn" || trigger === "signUp") {
           const sessionCartId = cookies().get("sessionCartId")?.value;
           if (!sessionCartId) throw new Error("Session cart not Found");
@@ -38,11 +46,17 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
           }
         }
       }
+
+      if (trigger === "update") {
+        token.name = session.user.name;
+      }
       return token;
     },
 
     session: async ({ session, user, trigger, token }: any) => {
-      session.user.id = token.sub;
+      if (token.sub && session.user) {
+        session.user.id = token.sub;
+      }
       if (trigger === "update") {
         session.user.name = user.name;
       }
@@ -63,6 +77,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
 
       const sessionCartId = request.cookies.get("sessionCartId");
+      console.log(sessionCartId);
       if (!sessionCartId) {
         const newSessionCartId = crypto.randomUUID();
         const newRequestHeaders = new Headers(request.headers);
