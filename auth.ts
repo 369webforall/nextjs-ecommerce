@@ -17,7 +17,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     },
     async jwt({ token, user, session, trigger }: any) {
       if (user) {
-        console.log("session jwt");
         if (trigger === "signIn" || trigger === "signUp") {
           const sessionCartId = cookies().get("sessionCartId")?.value;
           if (!sessionCartId) throw new Error("Session cart not Found");
@@ -77,7 +76,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       if (!auth && protectedPaths.some((p) => p.test(pathname))) return false;
 
       const sessionCartId = request.cookies.get("sessionCartId");
-      console.log(sessionCartId);
+
       if (!sessionCartId) {
         const newSessionCartId = crypto.randomUUID();
         const newRequestHeaders = new Headers(request.headers);

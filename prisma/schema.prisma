@@ -40,6 +40,7 @@ model User {
   emailVerified DateTime?
   password      String?
   image         String?
+  paymentMethod String?
   accounts      Account[]
   sessions      Session[]
   // Optional for WebAuthn support

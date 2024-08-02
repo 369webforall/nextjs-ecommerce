@@ -5,7 +5,7 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { loginSchema } from "@/lib/schema/loginSchema";
 import { getUserByEmail } from "@/lib/action/user.action";
-import { useSearchParams } from "next/navigation";
+
 export const signInWithCredentials = async (
   values: z.infer<typeof loginSchema>,
   callbackUrl: string

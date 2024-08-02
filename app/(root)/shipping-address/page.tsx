@@ -22,6 +22,5 @@ export default async function ShippingPage() {
   const address = Array.isArray(user?.address)
     ? user.address[0]
     : user?.address || null;
-  console.log(address);
   return <ShippingAddressForm address={address} />;
 }
