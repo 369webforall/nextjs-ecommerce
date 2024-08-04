@@ -23,12 +23,16 @@ export const signInWithCredentials = async (
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Email does not exist!" };
   }
+
+  // Parse and clean the callbackUrl
+  const url = new URL(callbackUrl, "http://localhost"); // Use a dummy base URL
+  const cleanCallbackUrl = url.pathname;
   try {
     const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
-      callbackUrl,
+      callbackUrl: cleanCallbackUrl,
     });
 
     if (response?.error) {
