@@ -21,14 +21,6 @@ import { loginSchema } from "@/lib/schema/loginSchema";
 import { useRouter } from "next/navigation";
 export function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  // Get the callbackUrl from the query parameters
-  const callbackUrl = searchParams?.get("callbackUrl") || "/";
-
-  // Parse and clean the callbackUrl
-  const url = new URL(callbackUrl, "http://localhost"); // Use a dummy base URL
-  const cleanCallbackUrl = url.pathname;
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -46,14 +38,10 @@ export function LoginForm() {
     }
     const { email, password } = validationFields.data;
 
-    const res = await signInWithCredentials(
-      { email, password },
-      cleanCallbackUrl
-    );
-    console.log(cleanCallbackUrl);
+    const res = await signInWithCredentials({ email, password });
     if (res?.success) {
       toast.success("Login success");
-      router.replace(cleanCallbackUrl);
+      router.replace("/");
     } else {
       toast.error(res?.error);
     }

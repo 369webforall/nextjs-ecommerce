@@ -5,10 +5,9 @@ import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 import { loginSchema } from "@/lib/schema/loginSchema";
 import { getUserByEmail } from "@/lib/action/user.action";
-
+import { revalidatePath } from "next/cache";
 export const signInWithCredentials = async (
-  values: z.infer<typeof loginSchema>,
-  callbackUrl: string
+  values: z.infer<typeof loginSchema>
 ) => {
   const validatedFields = loginSchema.safeParse(values);
 
@@ -24,21 +23,17 @@ export const signInWithCredentials = async (
     return { error: "Email does not exist!" };
   }
 
-  // Parse and clean the callbackUrl
-  const url = new URL(callbackUrl, "http://localhost"); // Use a dummy base URL
-  const cleanCallbackUrl = url.pathname;
   try {
     const response = await signIn("credentials", {
       email,
       password,
       redirect: false,
-      callbackUrl: cleanCallbackUrl,
     });
 
     if (response?.error) {
       return { success: false, error: response.error };
     }
-
+    revalidatePath("/");
     return { success: true, message: "Sign in successfully" };
   } catch (error) {
     if (error instanceof AuthError) {
